@@ -82,6 +82,7 @@ class DonnorsController extends Controller
             $donnor->sr_no = Donnors::max('sr_no') + 1;
             $donnor->donnor_picture = $profile;
             $donnor->donnor_name = $request->donnor_name;
+            $donnor->donnor_email = $request->donnor_email ?? '';
             $donnor->donnor_address = $request->donnor_address;
             $donnor->last_blood_donation = date('Y-m-d' , strtotime($request->last_donation));
             $donnor->donnor_phone  = $request->donnor_phone;
