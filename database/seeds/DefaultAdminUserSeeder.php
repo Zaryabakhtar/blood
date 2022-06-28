@@ -4,7 +4,7 @@ use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class DefaultAdminUser extends Seeder
+class DefaultAdminUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
