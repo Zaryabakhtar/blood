@@ -1,0 +1,6 @@
+.kt-header{
+    justify-content: flex-end!important;
+}
+.kt-subheader .kt-subheader__main{
+    justify-content: space-between!important;
+}
