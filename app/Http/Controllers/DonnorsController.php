@@ -91,6 +91,7 @@ class DonnorsController extends Controller
             $donnor->donnor_age  = $request->donnor_age;
             $donnor->donnor_barcode  = $id;
             $donnor->blood_group_id  = $request->donnor_blood_group;
+            $donnor->hospital_id  = 1;
             $donnor->save();
 
             return $this->jsonSuccessResponse([] , 'Donor Added Successfully!');
