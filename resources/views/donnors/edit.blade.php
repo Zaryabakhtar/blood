@@ -50,10 +50,10 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="kt-avatar" id="kt_user_avatar_2">
-                                        <div class="kt-avatar__holder" style="background-image: url(../panel/media/users/default.jpg)"></div>
+                                        <div class="kt-avatar__holder" style="background-image: url(<?php echo asset('uploads/donnors-profile') .'/'. $data['donnor']->donnor_picture; ?>)"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
-                                            <input type="file" name="donnor_avatar" accept=".png, .jpg, .jpeg">
+                                            <input type="file" name="donnor_avatar" accept="image/*" value="{{ $data['donnor']->donnor_picture }}">
                                         </label>
                                         <span class="kt-avatar__cancel" data-toggle="kt-tooltip" title="" data-original-title="Cancel avatar">
                                             <i class="fa fa-times"></i>
@@ -69,7 +69,7 @@
                             <div class="row">
                                 <label class="col-md-12">Phone Number: <span class="text-danger">*</span></label>
                                 <div class="col-md-12">
-                                    <input type="text" name="donnor_phone" class="form-control" placeholder="Enter Phone Number" autocomplete="false"/>
+                                    <input type="text" name="donnor_phone" value="{{ $data['donnor']->donnor_phone }}" class="form-control" placeholder="Enter Phone Number" autocomplete="false"/>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                             <div class="row">
                                 <label class="col-md-12">Address: <span class="text-danger">*</span></label>
                                 <div class="col-md-12">
-                                    <input type="text" name="donnor_address" id="donnor_address" class="form-control" placeholder="Donnor Address" autocomplete="false"/>
+                                    <input type="text" name="donnor_address" id="donnor_address" value="{{ $data['donnor']->donnor_address ?? '' }}" class="form-control" placeholder="Donnor Address" autocomplete="false"/>
                                 </div>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                 <div class="col-md-12">
                                     <select class="form-control kt-select2" id="donnor_blood_group" name="donnor_blood_group">
                                         @foreach($data['bloodGroups'] as $bloodGroup)
-                                            <option value="{{ $bloodGroup->blood_group_id }}">{{ $bloodGroup->blood_group_code }}</option>
+                                            <option value="{{ $bloodGroup->blood_group_id }}" @if($data['donnor']->blood_group_id == $bloodGroup->blood_group_id) 'selected' @endif>{{ $bloodGroup->blood_group_code }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -100,7 +100,7 @@
                                 <label class="col-md-12">Age of Donor: <span class="text-danger">*</span></label>
                                 <div class="input-group col-md-12">
                                     <div class="input-group-append"><span class="input-group-text"><i class="la la-sort-numeric-asc"></i></span></div>
-                                    <input type="text" name="donnor_age" id="donnor_age" class="form-control validNumber" autocomplete="false"/>
+                                    <input type="text" name="donnor_age" id="donnor_age" value="{{ $data['donnor']->donnor_age ?? '' }}" class="form-control validNumber" autocomplete="false"/>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                                 <label class="col-md-12">Last Donation: <span class="text-danger">*</span></label>
                                 <div class="input-group col-md-12">
                                     <div class="input-group-append"><span class="input-group-text"><i class="la la-calendar"></i></span></div>
-                                    <input type="text" name="last_donation" id="last_donation" class="form-control kt-datepicker" autocomplete="false"/>
+                                    <input type="text" name="last_donation" id="last_donation" value="{{ $data['donnor']->last_blood_donation ?? '' }}" class="form-control kt-datepicker" autocomplete="false"/>
                                 </div>
                             </div>
                         </div>

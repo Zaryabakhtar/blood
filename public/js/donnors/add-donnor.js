@@ -95,6 +95,7 @@ var KTFormWidgets = function () {
     }
     var formClear = function(){
         formId.trigger("reset");
+        $('#kt_user_avatar_2 .kt-avatar__upload').trigger('click');
     }
     return {
         // public functions

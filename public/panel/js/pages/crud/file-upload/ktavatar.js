@@ -94,7 +94,30 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\n\r\n// Class definition\r\nvar KTAvatarDemo = function () {\r\n\t// Private functions\r\n\tvar initDemos = function () {\r\n\t\tvar avatar1 = new KTAvatar('kt_user_avatar_1');\r\n        var avatar2 = new KTAvatar('kt_user_avatar_2');\r\n        var avatar3 = new KTAvatar('kt_user_avatar_3');\r\n        var avatar4 = new KTAvatar('kt_user_avatar_4');\r\n\t}\r\n\r\n\treturn {\r\n\t\t// public functions\r\n\t\tinit: function() {\r\n\t\t\tinitDemos();\r\n\t\t}\r\n\t};\r\n}();\r\n\r\nKTUtil.ready(function() {\r\n\tKTAvatarDemo.init();\r\n});\r\n\n\n//# sourceURL=webpack:///../src/assets/js/pages/crud/file-upload/ktavatar.js?");
+// Class definition
+var KTAvatarDemo = function() {
+  // Private functions
+  var initDemos = function() {
+      var avatar1 = new KTAvatar('kt_user_avatar_1');
+      var avatar2 = new KTAvatar('kt_user_avatar_2');
+      var avatar3 = new KTAvatar('kt_user_avatar_3');
+      var avatar4 = new KTAvatar('kt_user_avatar_4');
+  }
+
+  return {
+      // public functions
+      init: function() {
+          initDemos();
+      }
+  };
+}();
+
+KTUtil.ready(function() {
+  KTAvatarDemo.init();
+});
+
+
+//# sourceURL=webpack:///../src/assets/js/pages/crud/file-upload/ktavatar.js?
 
 /***/ })
 

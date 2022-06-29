@@ -53,7 +53,7 @@
                                         <div class="kt-avatar__holder" style="background-image: url(../panel/media/users/default.jpg)"></div>
                                         <label class="kt-avatar__upload" data-toggle="kt-tooltip" title="" data-original-title="Change avatar">
                                             <i class="fa fa-pen"></i>
-                                            <input type="file" name="donnor_avatar" accept=".png, .jpg, .jpeg">
+                                            <input type="file" name="donnor_avatar" accept="image/*">
                                         </label>
                                         <span class="kt-avatar__cancel" data-toggle="kt-tooltip" title="" data-original-title="Cancel avatar">
                                             <i class="fa fa-times"></i>
