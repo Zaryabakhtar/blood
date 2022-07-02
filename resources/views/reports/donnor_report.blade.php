@@ -36,7 +36,7 @@
                             <select class="form-control kt-select2" name="searchBloodGroup" data-col-index="2">
                                 <option value="">Select</option>
                                 @foreach($data['blood_group'] as $group)
-                                    <option value="{{ $group->blood_group_id }}">{{ $group->blood_group_code }}</option>
+                                    <option value="{{ $group->blood_group_id }}" @if(isset($data['searchBloodGroup']) && $data['searchBloodGroup'] == $group->blood_group_id) selected @endif>{{ $group->blood_group_code }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -44,9 +44,9 @@
                             <label>Gender:</label>
                             <select class="form-control kt-select2" data-col-index="6" name="searchGender">
                                 <option value="">Select</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Transgender">Transgender</option>
+                                <option value="Male" @if(isset($data['searchGender']) && $data['searchGender'] == "Male") selected @endif>Male</option>
+                                <option value="Female" @if(isset($data['searchGender']) && $data['searchGender'] == "Female") selected @endif>Female</option>
+                                <option value="Transgender" @if(isset($data['searchGender']) && $data['searchGender'] == "Transgender") selected @endif>Transgender</option>
                             </select>
                         </div>
                     </div>
