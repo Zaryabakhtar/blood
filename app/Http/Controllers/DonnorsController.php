@@ -21,6 +21,7 @@ class DonnorsController extends Controller
     public function index()
     {
         $data = [];
+        $data['blood_groups'] = TblBloodGroups::get();
         return view('donnors.list' , compact('data'));
     }
 
@@ -125,7 +126,7 @@ class DonnorsController extends Controller
             if($donnors->where('donnor_id' , $id)->exists()){
                 $data['bloodGroups'] = TblBloodGroups::get();
                 $data['barcode'] = Utilities::uuid();
-                $data['donnor'] = $donnors->where('donnor_id' , $id)->first();               
+                $data['donnor'] = $donnors->where('donnor_id' , $id)->first();    
                 return view('donnors.edit' , compact('data'));
             }   
         }
@@ -240,7 +241,9 @@ class DonnorsController extends Controller
      */
     public function getList(Request $request){
 
-        $list = Donnors::orderBy('created_at');
+        $list = Donnors::select('donnors.*','blood_groups.blood_group_code')
+        ->join('blood_groups' , 'blood_groups.blood_group_id' , '=', 'donnors.blood_group_id')
+        ->orderBy('created_at');
 
         if (isset($request['query']['generalSearch']) && !empty($request['query']['generalSearch'])) {
             $keyword = $request['query']['generalSearch'];
@@ -250,6 +253,11 @@ class DonnorsController extends Controller
                 $query->orWhere('donnor_visits' ,'LIKE', '%'.$keyword.'%');
                 $query->orWhere('donnor_gender' ,'LIKE', '%'.$keyword.'%');
             });           
+        }
+        
+        if (isset($request['query']['group']) && !empty($request['query']['group'])) {
+            $group = $request['query']['group'];
+            $list->where('blood_groups.blood_group_id' , $group);           
         }
 
         $list = $list->get();

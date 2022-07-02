@@ -27,8 +27,14 @@
                                 <div class="col-lg-6 mb-2">
                                     <div class="row">
                                         <label class="col-md-12">DOB: <span class="text-danger">*</span></label>
-                                        <div class="col-md-12">
+                                        <div class="input-group col-md-12">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="donnor_age_text">
+                                                    {{ $data['donnor']->donnor_age }}
+                                                </span>
+                                            </div>
                                             <input type="text" name="donnor_dob" id="donnor_dob" value="{{ $data['donnor']->donnor_dob ?? '' }}" class="form-control kt-datepicker" placeholder="Select DOB" autocomplete="false"/>
+                                            <input type="hidden" name="donnor_age" id="donnor_age" value="{{ $data['donnor']->donnor_age ?? '' }}" class="form-control validNumber" autocomplete="false"/>
                                         </div>
                                     </div>
                                 </div>
@@ -92,15 +98,6 @@
                                             <option value="{{ $bloodGroup->blood_group_id }}" @if($data['donnor']->blood_group_id == $bloodGroup->blood_group_id) selected @endif>{{ $bloodGroup->blood_group_code }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="row">
-                                <label class="col-md-12">Age of Donor: <span class="text-danger">*</span></label>
-                                <div class="input-group col-md-12">
-                                    <div class="input-group-append"><span class="input-group-text"><i class="la la-sort-numeric-asc"></i></span></div>
-                                    <input type="text" name="donnor_age" id="donnor_age" value="{{ $data['donnor']->donnor_age ?? '' }}" class="form-control validNumber" autocomplete="false"/>
                                 </div>
                             </div>
                         </div>

@@ -64,8 +64,14 @@ var DonorModule = function() {
             title: 'Phone No.',
         },
         {
+            field: 'blood_group_code',
+            title: 'Blood Group',
+        },
+        {
             field: 'donnor_gender',
             title: 'Gender',
+            overflow: 'visible',
+            autoHide: true,
         },
         {
             field: 'last_blood_donation',
@@ -84,7 +90,7 @@ var DonorModule = function() {
             title: 'Actions',
             sortable: false,
             width: 110,
-            overflow: 'visible',
+            overflow: 'hidden',
             autoHide: false,
             textAlign: 'right',
             template: function(dataSet) {
@@ -100,15 +106,15 @@ var DonorModule = function() {
         }],
       });
 
-        $('#kt_form_status').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Status');
+        $('#kt_form_group').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'group');
         });
 
         $('#kt_form_type').on('change', function() {
             datatable.search($(this).val().toLowerCase(), 'Type');
         });
 
-        $('#kt_form_status').selectpicker();
+        $('#kt_form_group').selectpicker();
         
         $('a.btn-delete-record').on('click' , function(e){
             e.preventDefault();

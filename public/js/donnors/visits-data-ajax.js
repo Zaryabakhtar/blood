@@ -26,8 +26,8 @@ var DonorModule = function() {
               },
               pageSize: 10,
               serverPaging: false,
-              serverFiltering: true,
-              serverSorting: true,
+              serverFiltering: false,
+              serverSorting: false,
           },
 
           // layout definition

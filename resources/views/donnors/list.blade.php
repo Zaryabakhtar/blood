@@ -36,6 +36,21 @@
                                         </span>
                                     </div>
                                 </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Group:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" id="kt_form_group">
+                                                <option value=""></option>
+                                                @foreach($data['blood_groups'] as $group)
+                                                    <option value="{{ $group->blood_group_id }}">{{ $group->blood_group_code }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -97,6 +97,14 @@ var KTFormWidgets = function () {
     var formClear = function(){
         formId.trigger("reset");
     }
+
+    const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
+    $(document).on('change',"#donnor_dob",function(e){
+        var date = $(this).val();
+        var age = getAge(date);
+        $('#donnor_age').val(age);
+        $('#donnor_age_text').html(age + ' Y');
+    });
     return {
         // public functions
         init: function() {
