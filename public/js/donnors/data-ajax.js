@@ -92,7 +92,7 @@ var DonorModule = function() {
             <a href="'+donnorURL+'/edit/'+ dataSet.donnor_id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">\
                 <i class="flaticon2-paper"></i>\
             </a>\
-            <a href="'+donnorURL+'/destroy/'+ dataSet.donnor_id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-delete-record" title="Delete">\
+            <a href="javascript;" data-url="'+donnorURL+'/destroy/'+ dataSet.donnor_id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-delete-record" title="Delete">\
                 <i class="flaticon2-trash"></i>\
             </a>\
             ';
@@ -116,11 +116,38 @@ var DonorModule = function() {
             alert(url);
         });
     };
+
+    var handelDeletion = function(){
+        $(document).on('click' , '.btn-delete-record', function(e){
+            e.preventDefault();
+        
+            var thix = $(this);
+            var url = thix.data('url');
+            $.ajax({
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                url: url,
+                method: 'POST',
+                cache: false,
+                data : {},
+                beforeSend: function(){
+                    thix.prop('disabled',true);
+                },
+                success: function(){
+                    thix.parents("tr").remove();
+                },
+                error:function(){
+                    thix.prop('disabled',false);
+                }
+            });
+        });
+    }
+
   return {
       // public functions
       init: function() {
         var donnorURL = DONNOR_URL;
         donorList(donnorURL);
+        handelDeletion();
       },
     };
 }();

@@ -3,8 +3,7 @@
 @section('content')
 <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
     <div class="row">
-        <div class="col-lg-12 col-xl-12 order-lg-1 order-xl-1">
-
+        <div class="col-lg-6">
             <!--begin:: Widgets/Activity-->
             <div class="kt-portlet kt-portlet--fit kt-portlet--head-lg kt-portlet--head-overlay kt-portlet--skin-solid kt-portlet--height-fluid">
                 <div class="kt-portlet__head kt-portlet__head--noborder kt-portlet__space-x">
@@ -36,7 +35,7 @@
                                         Donnors
                                     </span>
                                     <span class="kt-widget17__desc">
-                                        100 New Donnars
+                                        {{ $data['totalDonnors'] }} Total Donnars
                                     </span>
                                 </div>
                                 <div class="kt-widget17__item">
@@ -96,7 +95,69 @@
             </div>
             <!--end:: Widgets/Activity-->
         </div>
-        <div class="col-xl-8 order-lg-2 order-xl-1">
+        <div class="col-lg-6">
+            <!--begin:: Widgets/Sales States-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Total Donor(s)
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="kt-widget6">
+                        <div class="kt-widget6__head">
+                            <div class="kt-widget6__item">
+                                <span>Blood Group</span>
+                                <span>Count</span>
+                            </div>
+                        </div>
+                        <div class="kt-widget6__body">
+                            @foreach($data['blood_groups'] as $group)
+                            <div class="kt-widget6__item">
+                                <span>{{ $group->blood_group_name }} (<b>{{ $group->blood_group_code }}</b>)</span>
+                                <span>{{ $group->donnors_count }}</span>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/Sales States-->
+        </div>
+        <div class="col-lg-6">
+            <!--begin:: Widgets/Sales States-->
+            <div class="kt-portlet kt-portlet--height-fluid">
+                <div class="kt-portlet__head">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-portlet__head-title">
+                            Last 30 Days Donor(s) Added
+                        </h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="kt-widget6">
+                        <div class="kt-widget6__head">
+                            <div class="kt-widget6__item">
+                                <span>Blood Group</span>
+                                <span>Count</span>
+                            </div>
+                        </div>
+                        <div class="kt-widget6__body">
+                            @foreach($data['blood_groups'] as $group)
+                            <div class="kt-widget6__item">
+                                <span>{{ $group->blood_group_name }} (<b>{{ $group->blood_group_code }}</b>)</span>
+                                <span>{{ $group->donnors_count }}</span>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end:: Widgets/Sales States-->
+        </div>
+        <div class="col-lg-6 order-lg-2">
             <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
                 <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
                     <div class="kt-portlet__head-label">
@@ -107,7 +168,7 @@
                 </div>
                 <div class="kt-portlet__body kt-portlet__body--fit">
                     <!--begin: Datatable -->
-                    <div class="kt-datatable" id="kt_datatable_latest_orders"></div>
+                    <div class="kt-datatable" id="donnor_data" data-url="{{ route('panel.donnorsList') }}"></div>
                     <!--end: Datatable -->
                 </div>
             </div>
@@ -115,3 +176,7 @@
     </div>
 </div>
 @endsection
+
+@push('customJS')
+    <script src="{{ asset('js/donnors/data-ajax.js') }}" type="text/javascript"></script>
+@endpush

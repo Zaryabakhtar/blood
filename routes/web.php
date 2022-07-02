@@ -34,9 +34,10 @@ Route::middleware('auth')->name('panel.')->group(function(){
         Route::post('/store', 'DonnorsController@store')->name('storeDonnor');
         Route::get('/edit/{id}', 'DonnorsController@edit')->name('editDonnor');
         Route::post('/edit/{id}', 'DonnorsController@update')->name('updateDonnor');
-        Route::get('/visit/{$id?}', 'DonnorsController@addVisit')->name('addVisit');
-        Route::get('/profile/{$id}', 'DonnorsController@show')->name('donnorProfile');
-        Route::get('/destroy/{$id}', 'DonnorsController@destroy')->name('deleteDonnor');
+        Route::get('/visit', 'DonnorsController@addVisit')->name('addVisit');
+        Route::post('/visit', 'DonnorsController@storeVisit')->name('storeVisit');
+        Route::get('/profile/{id}', 'DonnorsController@show')->name('donnorProfile');
+        Route::post('/destroy/{id}', 'DonnorsController@destroy')->name('deleteDonnor');
     });
 });
 

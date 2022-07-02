@@ -109,7 +109,7 @@
                                 <label class="col-md-12">Last Donation: <span class="text-danger">*</span></label>
                                 <div class="input-group col-md-12">
                                     <div class="input-group-append"><span class="input-group-text"><i class="la la-calendar"></i></span></div>
-                                    <input type="text" name="last_donation" id="last_donation" class="form-control kt-datepicker" autocomplete="false"/>
+                                    <input type="text" name="last_donation" id="last_donation" value="{{ date('Y-m-d') }}" class="form-control kt-datepicker" autocomplete="false"/>
                                 </div>
                             </div>
                         </div>

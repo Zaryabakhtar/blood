@@ -37,9 +37,9 @@
                                         <label class="col-md-12">Gender: <span class="text-danger">*</span></label>
                                         <div class="col-md-12">
                                             <select class="form-control kt-select2" id="donnor_gender" name="donnor_gender">
-                                                <option value="Male" @if(isset($data['donnor']->donnor_gender) && $data['donnor']->donnor_gender == 'Male') 'selected' @endif>Male</option>
-                                                <option value="Female" @if(isset($data['donnor']->donnor_gender) && $data['donnor']->donnor_gender == 'Female') 'selected' @endif>Female</option>
-                                                <option value="Transgender" @if(isset($data['donnor']->donnor_gender) && $data['donnor']->donnor_gender == 'Transgender') 'selected' @endif>Transgender</option>
+                                                <option value="Male" @if(isset($data['donnor']->donnor_gender) && $data['donnor']->donnor_gender == 'Male') selected @endif>Male</option>
+                                                <option value="Female" @if(isset($data['donnor']->donnor_gender) && $data['donnor']->donnor_gender == 'Female') selected @endif>Female</option>
+                                                <option value="Transgender" @if(isset($data['donnor']->donnor_gender) && $data['donnor']->donnor_gender == 'Transgender') selected @endif>Transgender</option>
                                             </select>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                 <div class="col-md-12">
                                     <select class="form-control kt-select2" id="donnor_blood_group" name="donnor_blood_group">
                                         @foreach($data['bloodGroups'] as $bloodGroup)
-                                            <option value="{{ $bloodGroup->blood_group_id }}" @if($data['donnor']->blood_group_id == $bloodGroup->blood_group_id) 'selected' @endif>{{ $bloodGroup->blood_group_code }}</option>
+                                            <option value="{{ $bloodGroup->blood_group_id }}" @if($data['donnor']->blood_group_id == $bloodGroup->blood_group_id) selected @endif>{{ $bloodGroup->blood_group_code }}</option>
                                         @endforeach
                                     </select>
                                 </div>

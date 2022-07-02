@@ -12,4 +12,8 @@ class TblBloodGroups extends Model
     protected static function primaryKeyName() {
         return (new static)->getKeyName();
     }
+
+    public function donnors(){
+        return $this->hasMany(Donnors::class, 'blood_group_id');
+    }
 }

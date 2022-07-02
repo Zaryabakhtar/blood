@@ -2,7 +2,7 @@
 var KTFormWidgets = function () {
     // Private functions
     var validator;
-    var formId = $( "#add_new_donnor_form" )
+    var formId = $( "#add_new_donnor_visit" )
     $.validator.addMethod("valueNotEquals", function(value, element, arg){
         return arg !== value;
     }, "");
@@ -10,33 +10,13 @@ var KTFormWidgets = function () {
         validator = formId.validate({
             // define validation rules
             rules: {
-                donnor_name: {
-                    required: true
-                },
-                donnor_email: {
-                    required: false
-                },
-                donnor_dob: {
-                    required: true
-                },
-                donnor_phone: {
-                    required: true
-                },
-                donnor_address: {
-                    required: true
-                },
-                donnor_age: {
+                visit_date: {
                     required: true,
                 },
-                donnor_gender:{
-                    required: true,
-                    valueNotEquals: "0"
-                },
-                donnor_blood_group:{
+                visit_donnors:{
                     required: true,
                     valueNotEquals: "0"
                 }
-
             },
 
             //display error alert on form submit
@@ -96,6 +76,7 @@ var KTFormWidgets = function () {
 
     var formClear = function(){
         formId.trigger("reset");
+        $("#visit_donnors").val('').trigger('change');
     }
     return {
         // public functions

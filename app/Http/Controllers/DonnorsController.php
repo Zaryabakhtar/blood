@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Library\Utilities;
 use App\Models\Donnors;
+use App\Models\DonnorVisits;
 use App\Models\TblBloodGroups;
 use Exception;
 use Illuminate\Http\Request;
@@ -162,22 +163,18 @@ class DonnorsController extends Controller
         }
         
         try {
-            $id = Utilities::uuid();
-
-            if (!file_exists(public_path('/uploads/donnors-profile/'))) {
-                mkdir(public_path('/uploads/donnors-profile/'), 0777, true);
-            }
-
+            $donnor = $donnors::where('donnor_id' , $id)->first();
             if($request->hasFile('donnor_avatar')){
+
+                if (!file_exists(public_path('/uploads/donnors-profile/'))) {
+                    mkdir(public_path('/uploads/donnors-profile/'), 0777, true);
+                }
+
                 $imageName = time().'.'.$request->donnor_avatar->extension();  
                 $request->donnor_avatar->move(public_path('/uploads/donnors-profile/'), $imageName);
                 $profile = $imageName;
-            }else{
-                $profile = 'default.jpg';
+                $donnor->donnor_picture = $profile;
             }
-
-            $donnor = $donnors::where('donnor_id' , $id)->toSql();
-            $donnor->donnor_picture = $profile;
             $donnor->donnor_name = $request->donnor_name;
             $donnor->donnor_email = $request->donnor_email ?? '';
             $donnor->donnor_address = $request->donnor_address;
@@ -188,6 +185,12 @@ class DonnorsController extends Controller
             $donnor->donnor_age  = $request->donnor_age;
             $donnor->blood_group_id  = $request->donnor_blood_group;
             $donnor->hospital_id  = 1;
+            $donnor->save();
+
+            // Add Record In Visits Table
+            $donnor = new DonnorVisits();
+            $donnor->donnor_id = $id;
+            $donnor->visit_date = date('Y-m-d' , strtotime($request->last_donation));
             $donnor->save();
 
             return $this->jsonSuccessResponse([] , 'Donor Added Successfully!');
@@ -202,9 +205,49 @@ class DonnorsController extends Controller
      * @param  \App\Models\Donnors  $donnors
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Donnors $donnors)
+    public function destroy(Donnors $donnors , $id = null)
     {
-        //
+        if(!isset($id)){
+            return $this->jsonErrorResponse([] , 'Unable to handel request!');
+        }
+
+        try {
+            $donnors->where('donnor_id' , $id)->delete();
+            return $this->jsonSuccessResponse([] , 'Successfully Deleted!' , 200);
+        } catch (Exception $e) {
+            return $this->jsonErrorResponse([] , 'Something went wrong!');
+        }
+    }
+
+    public function addVisit(){
+        $data = [];
+        $data['donnors'] = Donnors::get();
+        return view('donnors.visit' , compact('data'));
+    }
+    
+    public function storeVisit(Request $request){
+        $data = [];
+        $validator = Validator::make($request->all() , [
+            'donnor_visit' => 'required|date',
+            'visit_donnors' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return $this->jsonErrorResponse($data, trans('validation.validate_fields' , [':attribute' => 123]), 422);
+        }
+
+        foreach ($request->visit_donnors as $value) {
+            $donnor = Donnors::where('donnor_id' , $value)->first();
+            $donnor->last_blood_donation = date('Y-m-d' , strtotime($request->donnor_visit));
+            $donnor->donnor_visits++;
+            $donnor->save();
+            // Add Record In Visits Table
+            $donnor = new DonnorVisits();
+            $donnor->donnor_id = $value;
+            $donnor->visit_date = date('Y-m-d' , strtotime($request->donnor_visit));
+            $donnor->save();
+        }
+        return $this->jsonSuccessResponse([] , 'Successfully Added Visits!' , 200);
     }
 
     /**
@@ -212,9 +255,9 @@ class DonnorsController extends Controller
      *
      * @return void
      */
-    public function getList(){
-        $list = Donnors::orderBy('donnor_id')->get();
+    public function getList(Request $request){
 
+        $list = Donnors::orderBy('donnor_id')->get();
         return response()->json($list);
     }
 }

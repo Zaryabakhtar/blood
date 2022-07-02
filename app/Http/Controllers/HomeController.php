@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donnors;
+use App\Models\TblBloodGroups;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,7 +24,9 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        return view('home');
+    {   $data = [];
+        $data['totalDonnors'] = Donnors::count();
+        $data['blood_groups'] = TblBloodGroups::withCount('donnors')->get(); 
+        return view('home' , compact('data'));
     }
 }
