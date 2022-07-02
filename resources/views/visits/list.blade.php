@@ -9,14 +9,14 @@
                         <i class="kt-font-brand flaticon2-line-chart"></i>
                     </span>
                     <h3 class="kt-portlet__head-title">
-                        Donnors List
+                        Visit List
                     </h3>
                 </div>
                 <div class="kt-portlet__head-toolbar">
                     <div class="kt-portlet__head-wrapper">
                         <div>
-                            <a href="{{ route('panel.addDonnor') }}" class="btn btn-brand btn-icon-sm text-white">
-                                <i class="flaticon2-plus"></i> Add New Donnor
+                            <a href="{{ route('panel.addVisit') }}" class="btn btn-brand btn-icon-sm text-white">
+                                <i class="flaticon2-plus"></i> Add New Visit
                             </a>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
             <div class="kt-portlet__body kt-portlet__body--fit">
 
                 <!--begin: Datatable -->
-                <div class="kt-datatable" id="donnor_data" data-url="{{ route('panel.donnorsList') }}"></div>
+                <div class="kt-datatable" id="donnor_data" data-url="{{ route('panel.getVisitsList') }}"></div>
 
                 <!--end: Datatable -->
             </div>
@@ -57,5 +57,5 @@
     <script>
         var DONNOR_URL = "{{ url('donnors') }}";
     </script>
-    <script src="{{ asset('js/donnors/donnors-data-ajax.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/donnors/visits-data-ajax.js') }}" type="text/javascript"></script>
 @endpush

@@ -219,45 +219,40 @@ class DonnorsController extends Controller
         }
     }
 
-    public function addVisit(){
+    public function getDonnorDetails(Request $request,$id = null){
         $data = [];
-        $data['donnors'] = Donnors::get();
-        return view('donnors.visit' , compact('data'));
-    }
-    
-    public function storeVisit(Request $request){
-        $data = [];
-        $validator = Validator::make($request->all() , [
-            'donnor_visit' => 'required|date',
-            'visit_donnors' => 'required'
-        ]);
-
-        if($validator->fails()){
-            return $this->jsonErrorResponse($data, trans('validation.validate_fields' , [':attribute' => 123]), 422);
+        if(!isset($id)){
+            return $this->jsonErrorResponse($data , "Something went wrong! Try Again." , 200);
         }
 
-        foreach ($request->visit_donnors as $value) {
-            $donnor = Donnors::where('donnor_id' , $value)->first();
-            $donnor->last_blood_donation = date('Y-m-d' , strtotime($request->donnor_visit));
-            $donnor->donnor_visits++;
-            $donnor->save();
-            // Add Record In Visits Table
-            $donnor = new DonnorVisits();
-            $donnor->donnor_id = $value;
-            $donnor->visit_date = date('Y-m-d' , strtotime($request->donnor_visit));
-            $donnor->save();
-        }
-        return $this->jsonSuccessResponse([] , 'Successfully Added Visits!' , 200);
+        $data['donnorDetails'] = DonnorVisits::where('donnor_id' , $id)->orderBy('created_at' , 'DESC')->get();
+        foreach ($data['donnorDetails'] as $detail) {
+            $dateTime = strtotime($detail->visit_date);
+            $detail->visit_ago = $this->timeAgo(strtotime($detail->created_at));
+        } 
+        return $this->jsonSuccessResponse($data , 'Donor History is Loaded!' , 200);
     }
 
     /**
      * Return the Donnors List
      *
-     * @return void
+     * @return json
      */
     public function getList(Request $request){
 
-        $list = Donnors::orderBy('donnor_id')->get();
+        $list = Donnors::orderBy('created_at');
+
+        if (isset($request['query']['generalSearch']) && !empty($request['query']['generalSearch'])) {
+            $keyword = $request['query']['generalSearch'];
+            $list->where(function($query) use ($keyword){
+                $query->orWhere('donnor_name' ,'LIKE', '%'.$keyword.'%');
+                $query->orWhere('donnor_phone' ,'LIKE', '%'.$keyword.'%');
+                $query->orWhere('donnor_visits' ,'LIKE', '%'.$keyword.'%');
+                $query->orWhere('donnor_gender' ,'LIKE', '%'.$keyword.'%');
+            });           
+        }
+
+        $list = $list->get();
         return response()->json($list);
     }
 }

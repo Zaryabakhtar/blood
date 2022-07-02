@@ -16,4 +16,8 @@ class Donnors extends Model
     public function blood_group(){
         return $this->belongsTo(TblBloodGroups::class , 'blood_group_id');
     }
+
+    public function visits(){
+        return $this->hasMany(DonnorVisits::class , 'donnor_id');
+    }
 }
