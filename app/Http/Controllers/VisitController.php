@@ -85,7 +85,12 @@ class VisitController extends Controller
      */
     public function edit($id)
     {
-        //
+        if(isset($id)){
+            $data = [];
+            $data['current'] = Donnors::get();
+            return view('visits.edit_visit' , compact('data'));
+        }
+        abort('404');
     }
 
     /**
@@ -126,9 +131,12 @@ class VisitController extends Controller
             $list->where(function($query) use ($keyword){
                 $query->orWhere('donnors.donnor_name' ,'LIKE', '%'.$keyword.'%');
             });           
-        }
+        } 
 
         $list = $list->get();
+        foreach ($list as $detail) {
+            $detail->visit_ago = $this->timeAgo(strtotime($detail->visit_date));
+        }
         return response()->json($list);
     }
 }

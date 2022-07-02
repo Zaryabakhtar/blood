@@ -213,6 +213,9 @@ class DonnorsController extends Controller
         }
 
         try {
+            if(DonnorVisits::where('donnor_id' , $id)->exists()){
+                return $this->jsonErrorResponse([] , 'Can not be deleted!');
+            }
             $donnors->where('donnor_id' , $id)->delete();
             return $this->jsonSuccessResponse([] , 'Successfully Deleted!' , 200);
         } catch (Exception $e) {
@@ -228,7 +231,6 @@ class DonnorsController extends Controller
 
         $data['donnorDetails'] = DonnorVisits::where('donnor_id' , $id)->orderBy('created_at' , 'DESC')->get();
         foreach ($data['donnorDetails'] as $detail) {
-            $dateTime = strtotime($detail->visit_date);
             $detail->visit_ago = $this->timeAgo(strtotime($detail->created_at));
         } 
         return $this->jsonSuccessResponse($data , 'Donor History is Loaded!' , 200);

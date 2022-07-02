@@ -54,10 +54,16 @@ class Controller extends BaseController
         else if($diff->s > 0){
             $timemsg = $diff->s .' '. ($diff->s > 1?'Seconds':'Seconds');
         }
-        if($timemsg == "")
+        if($timemsg == ""){
             $timemsg = 'Just Now';
-        else
-            $timemsg = $timemsg.' Ago';
+        }
+        else{
+            if($timestamp > time()){
+                $timemsg = $timemsg.' Afterward';
+            }else{
+                $timemsg = $timemsg.' Ago';
+            }
+        }
     
         return $timemsg;
     }

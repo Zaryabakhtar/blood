@@ -45,7 +45,16 @@ Route::middleware('auth')->name('panel.')->group(function(){
         Route::get('/get-visit-list', 'VisitController@getList')->name('getVisitsList');
         Route::get('/create-visit', 'VisitController@create')->name('addVisit');
         Route::post('/store-visit', 'VisitController@store')->name('storeVisit');
+        Route::get('/edit-visit/{id}', 'VisitController@edit')->name('editVisit');
+        Route::post('/edit-visit/{id}', 'VisitController@update')->name('updateVisit');
+        Route::post('/destroy-visit/{id}', 'VisitController@destroy')->name('deleteVisit');
+
         Route::post('/get-donnor-details/{id?}' , 'DonnorsController@getDonnorDetails')->name('getDonnorDetails');
+    });
+    
+    Route::prefix('report')->group(function(){
+        // Create Visits
+        Route::get('/create-report', 'DonnorReportsController@index')->name('reportList');
     });
 });
 

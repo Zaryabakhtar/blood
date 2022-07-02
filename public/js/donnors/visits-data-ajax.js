@@ -1,7 +1,7 @@
 "use strict";
 // Class definition
 var DonorModule = function() {
-    var donorList = function(donnorURL) {
+    var donorList = function(visitURL = "") {
         var table = $('.kt-datatable');
         var tableUrl = table.attr('data-url');
         var datatable = $('.kt-datatable').KTDatatable({
@@ -39,7 +39,7 @@ var DonorModule = function() {
           // column sorting
           sortable: false,
 
-          pagination: false,
+          pagination: true,
 
           search: {
               input: $('#generalSearch'),
@@ -68,6 +68,10 @@ var DonorModule = function() {
             format: 'MM/DD/YYYY'
         }, 
         {
+            field: 'visit_ago',
+            title: 'Last Visit'
+        }, 
+        {
             field: 'Actions',
             title: 'Actions',
             sortable: false,
@@ -77,10 +81,10 @@ var DonorModule = function() {
             textAlign: 'right',
             template: function(dataSet) {
                 return '\
-            <a href="'+donnorURL+'/edit/'+ dataSet.id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">\
+            <a href="'+APP_URL+'/visit/edit-visit/'+ dataSet.id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">\
                 <i class="flaticon2-paper"></i>\
             </a>\
-            <a href="javascript;" data-url="'+donnorURL+'/destroy/'+ dataSet.id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-delete-record" title="Delete">\
+            <a href="javascript;" data-url="'+APP_URL+'/visit/destroy-visit/'+ dataSet.id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm btn-delete-record" title="Delete">\
                 <i class="flaticon2-trash"></i>\
             </a>\
             ';
@@ -108,23 +112,38 @@ var DonorModule = function() {
     var handelDeletion = function(){
         $(document).on('click' , '.btn-delete-record', function(e){
             e.preventDefault();
-        
             var thix = $(this);
             var url = thix.data('url');
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: url,
-                method: 'POST',
-                cache: false,
-                data : {},
-                beforeSend: function(){
-                    thix.prop('disabled',true);
-                },
-                success: function(){
-                    thix.parents("tr").remove();
-                },
-                error:function(){
-                    thix.prop('disabled',false);
+            swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: url,
+                        method: 'POST',
+                        cache: false,
+                        data : {},
+                        beforeSend: function(){
+                            thix.prop('disabled',true);
+                        },
+                        success: function(response){
+                            if(response.status == 'success'){
+                                thix.parents("tr").remove();
+                                swal.fire('Deleted!', '', 'success');
+                            }else{
+                                swal.fire(response.message, '', 'error');
+                            }
+                        },
+                        error:function(){
+                            thix.prop('disabled',false);
+                            swal.fire('Something went wrong! Try Again.', '', 'error');
+                        }
+                    });
                 }
             });
         });
@@ -133,8 +152,7 @@ var DonorModule = function() {
   return {
       // public functions
       init: function() {
-        var donnorURL = DONNOR_URL;
-        donorList(donnorURL);
+        donorList();
         handelDeletion();
       },
     };

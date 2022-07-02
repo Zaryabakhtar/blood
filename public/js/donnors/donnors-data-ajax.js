@@ -126,23 +126,38 @@ var DonorModule = function() {
     var handelDeletion = function(){
         $(document).on('click' , '.btn-delete-record', function(e){
             e.preventDefault();
-        
             var thix = $(this);
             var url = thix.data('url');
-            $.ajax({
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: url,
-                method: 'POST',
-                cache: false,
-                data : {},
-                beforeSend: function(){
-                    thix.prop('disabled',true);
-                },
-                success: function(){
-                    thix.parents("tr").remove();
-                },
-                error:function(){
-                    thix.prop('disabled',false);
+            swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!'
+            }).then(function(result) {
+                if (result.value) {
+                    $.ajax({
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        url: url,
+                        method: 'POST',
+                        cache: false,
+                        data : {},
+                        beforeSend: function(){
+                            thix.prop('disabled',true);
+                        },
+                        success: function(response){
+                            if(response.status == 'success'){
+                                thix.parents("tr").remove();
+                                swal.fire('Deleted!', '', 'success');
+                            }else{
+                                swal.fire(response.message, '', 'success');
+                            }
+                        },
+                        error:function(){
+                            thix.prop('disabled',false);
+                            swal.fire('Something went wrong! Try Again.', '', 'error');
+                        }
+                    });
                 }
             });
         });
