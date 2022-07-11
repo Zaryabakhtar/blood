@@ -3,7 +3,7 @@
 @section('content')
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="kt-portlet kt-portlet--mobile">
-            <form class="form" id="add_new_donnor_visit" method="POST" action="{{ route('panel.updateVisit' , ) }}">
+            <form class="form" id="add_new_donnor_visit" method="POST" action="{{ route('panel.updateVisit' , $data['visit_id'] ) }}">
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-lg-6">
@@ -29,9 +29,6 @@
                                                 <div class="col-md-12">
                                                     <select class="form-control kt-select2" id="visit_donnors" name="visit_donnors" readonly>
                                                         <option value="">Select Donor</option>
-                                                        @foreach($data['donnors'] as $donnor)
-                                                            <option value="{{ $donnor->donnor_id }}">{{ $donnor->donnor_name }}</option>
-                                                        @endforeach
                                                     </select>
                                                 </div>
                                             </div>

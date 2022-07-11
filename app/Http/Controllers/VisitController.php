@@ -86,9 +86,15 @@ class VisitController extends Controller
     public function edit($id)
     {
         if(isset($id)){
-            $data = [];
-            $data['current'] = Donnors::get();
-            return view('visits.edit_visit' , compact('data'));
+            $visit = DonnorVisits::where('id' , $id);
+            if($visit->exists()){
+                $data = [];
+                $data['visit_id'] = $id;
+                $data['current'] = Donnors::get();
+                $data['visit'] = DonnorVisits::where('id', $id)->with('donnors')->get();
+                return view('visits.edit_visit' , compact('data'));
+            }
+            abort('404');
         }
         abort('404');
     }

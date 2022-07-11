@@ -28,7 +28,7 @@ class Controller extends BaseController
         })->toArray());
     }
 
-    public function timeAgo($timestamp){
+    public static function timeAgo($timestamp){
         
         //$time_now = mktime(date('h')+0,date('i')+30,date('s'));
         $datetime1=new DateTime("now");

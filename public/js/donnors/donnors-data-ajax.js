@@ -95,6 +95,9 @@ var DonorModule = function() {
             textAlign: 'right',
             template: function(dataSet) {
                 return '\
+            <a href="'+donnorURL+'/profile/'+ dataSet.donnor_id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">\
+                <i class="flaticon2-user"></i>\
+            </a>\
             <a href="'+donnorURL+'/edit/'+ dataSet.donnor_id +'" class="btn btn-sm btn-clean btn-icon btn-icon-sm" title="Edit details">\
                 <i class="flaticon2-paper"></i>\
             </a>\

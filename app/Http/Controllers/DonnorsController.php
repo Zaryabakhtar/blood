@@ -108,9 +108,17 @@ class DonnorsController extends Controller
      * @param  \App\Models\Donnors  $donnors
      * @return \Illuminate\Http\Response
      */
-    public function show(Donnors $donnors)
-    {
-        //
+    public function show(Donnors $donnors , $id = null)
+    {   $data = [];
+        if(isset($id)){
+            $donnor = Donnors::where('donnor_id', $id);    
+            if($donnor->exists()){
+                $data['donnor'] = $donnor->with('visits')->first();
+                return view('donnors.profile' , compact('data'));
+            }
+            abort('404');
+        }
+        abort('404');
     }
 
     /**
